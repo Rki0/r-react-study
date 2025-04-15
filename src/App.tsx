@@ -13,7 +13,7 @@ function App() {
     setValue(e.target.value);
   };
 
-  const onButtonClickHandler = () => {
+  const onAddButtonClickHandler = () => {
     setTodos((prev) => {
       return [
         ...prev,
@@ -25,17 +25,29 @@ function App() {
     });
   };
 
+  const onDeleteButtonClickHandler = (id: number) => {
+    const deletedTodos = todos.filter((todo) => todo.id !== id);
+
+    setTodos(deletedTodos);
+  };
+
   return (
     <>
       <div>
         <input type="text" value={value} onChange={onInputChangeHandler} />
 
-        <button onClick={onButtonClickHandler}>Add</button>
+        <button onClick={onAddButtonClickHandler}>Add</button>
       </div>
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.text}</li>
+          <li key={todo.id}>
+            <span>{todo.text}</span>
+
+            <button onClick={() => onDeleteButtonClickHandler(todo.id)}>
+              X
+            </button>
+          </li>
         ))}
       </ul>
     </>
