@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TodoItem from "./TodoItem";
 
 interface Todo {
   id: number;
@@ -31,6 +32,14 @@ function App() {
     setTodos(deletedTodos);
   };
 
+  const onUpdateButtonClickHandler = (id: number, newText: string) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, text: newText } : todo
+      )
+    );
+  };
+
   return (
     <>
       <div>
@@ -41,13 +50,12 @@ function App() {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
-            <span>{todo.text}</span>
-
-            <button onClick={() => onDeleteButtonClickHandler(todo.id)}>
-              X
-            </button>
-          </li>
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            deleteHandler={onDeleteButtonClickHandler}
+            updateHandler={onUpdateButtonClickHandler}
+          />
         ))}
       </ul>
     </>
