@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "./components/Button";
 
 interface Todo {
   id: number;
@@ -42,15 +43,15 @@ function TodoItem({ todo, deleteHandler, updateHandler }: TodoItem) {
             onChange={onInputChangeHandler}
           />
 
-          <button onClick={saveUpdate}>Save</button>
-          <button onClick={offUpdate}>Cancel</button>
+          <Button onClickHandler={saveUpdate} text="Save" />
+          <Button onClickHandler={offUpdate} text="Cancel" />
         </>
       ) : (
         <>
           <span>{todo.text}</span>
 
-          <button onClick={onUpdate}>Update</button>
-          <button onClick={() => deleteHandler(todo.id)}>Delete</button>
+          <Button onClickHandler={onUpdate} text="Update" />
+          <Button onClickHandler={() => deleteHandler(todo.id)} text="Delete" />
         </>
       )}
     </li>
