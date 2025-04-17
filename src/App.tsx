@@ -25,6 +25,8 @@ function App() {
         },
       ];
     });
+
+    setValue("");
   };
 
   const onDeleteButtonClickHandler = (id: number) => {
