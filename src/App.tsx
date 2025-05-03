@@ -1,11 +1,11 @@
-import { useState } from "react";
+import JsExtension from "./JsExtension";
+import JsxExtension from "./JsxExtension";
 
 function App() {
-  const [] = useState<string>();
-
   return (
     <>
-      <input type="text" value={} onChange={} />
+      <JsExtension />
+      <JsxExtension />
     </>
   );
 }
