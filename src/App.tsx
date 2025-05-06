@@ -1,20 +1,17 @@
-import Avatar from "./components/Avatar";
-
-interface Person {
-  name: string;
-  imageId: string;
-  imgSrc: string;
-}
+import Item from "./components/Item";
 
 function App() {
-  const scientist: Person = {
-    name: "Gregorio Y. Zara",
-    imageId: "7vQD0fPs",
-    imgSrc: "http://localhost:3000",
-  };
+  return (
+    <section>
+      <h1>Sally Ride's Packing List</h1>
 
-  // TODO: Pass proper props.
-  return <Avatar />;
+      <ul>
+        <Item isPacked={true} name="Space suit" />
+        <Item isPacked={true} name="Helmet with a golden leaf" />
+        <Item isPacked={false} name="Photo of Tam" />
+      </ul>
+    </section>
+  );
 }
 
 export default App;
