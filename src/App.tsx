@@ -1,17 +1,14 @@
-function App() {
-  return (
-    <>
-      <div className="your_class_name">
-        <h1>My List</h1>
-        <p>Items:</p>
-      </div>
+const name = "Alice";
 
-      <div>
-        <li>Item 1</li>
-        <li>Item 2</li>
-      </div>
-    </>
-  );
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
+}
+
+function App() {
+  const today = new Date();
+
+  // TODO: Hello, Alice! Today is Thursday.
+  return <h1>Hello, ! Today is .</h1>;
 }
 
 export default App;
