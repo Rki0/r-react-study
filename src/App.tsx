@@ -1,17 +1,36 @@
-import Item from "./components/Item";
+interface People {
+  id: number;
+  family_name: string;
+  given_name: string;
+  occupation: string;
+}
+
+const people: People[] = [
+  {
+    id: 1,
+    family_name: "Pak",
+    given_name: "Kiyoung",
+    occupation: "Software Engineer",
+  },
+  {
+    id: 2,
+    family_name: "Horibe",
+    given_name: "Sakiho",
+    occupation: "Software Engineer",
+  },
+  {
+    id: 3,
+    family_name: "Toki",
+    given_name: "Marina",
+    occupation: "Software Engineer",
+  },
+];
 
 function App() {
-  return (
-    <section>
-      <h1>Sally Ride's Packing List</h1>
+  // TODO: Create an array to render li tag using people array.
+  const listItems = 
 
-      <ul>
-        <Item isPacked={true} name="Space suit" />
-        <Item isPacked={true} name="Helmet with a golden leaf" />
-        <Item isPacked={false} name="Photo of Tam" />
-      </ul>
-    </section>
-  );
+  return <ul>{listItems}</ul>;
 }
 
 export default App;

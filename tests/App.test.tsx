@@ -1,21 +1,41 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Item from "../src/components/Item";
+import App from "../src/App";
+
+interface People {
+  id: number;
+  family_name: string;
+  given_name: string;
+  occupation: string;
+}
+
+const mockPeople: People[] = [
+  {
+    id: 1,
+    family_name: "Pak",
+    given_name: "Kiyoung",
+    occupation: "Software Engineer",
+  },
+  {
+    id: 2,
+    family_name: "Horibe",
+    given_name: "Sakiho",
+    occupation: "Software Engineer",
+  },
+  {
+    id: 3,
+    family_name: "Toki",
+    given_name: "Marina",
+    occupation: "Software Engineer",
+  },
+];
 
 describe("Rendering Test", () => {
-  test("Render only the name property when the isPacked is false.", () => {
-    render(<Item isPacked={false} name="No Name" />);
+  test("should use li tag", () => {
+    render(<App />);
 
-    const element = screen.getByText("No Name");
+    const listItems = screen.getAllByRole("listitem");
 
-    expect(element).toBeInTheDocument();
-  });
-
-  test("Render the name property and check icon when the isPacked is true.", () => {
-    render(<Item isPacked={true} name="No Name" />);
-
-    const element = screen.getByText("No Name ✅");
-
-    expect(element).toBeInTheDocument();
+    expect(listItems.length).toBe(mockPeople.length);
   });
 });
