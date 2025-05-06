@@ -1,14 +1,20 @@
-const name = "Alice";
+import Avatar from "./components/Avatar";
 
-function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
+interface Person {
+  name: string;
+  imageId: string;
+  imgSrc: string;
 }
 
 function App() {
-  const today = new Date();
+  const scientist: Person = {
+    name: "Gregorio Y. Zara",
+    imageId: "7vQD0fPs",
+    imgSrc: "http://localhost:3000",
+  };
 
-  // TODO: Hello, Alice! Today is Thursday.
-  return <h1>Hello, ! Today is .</h1>;
+  // TODO: Pass proper props.
+  return <Avatar />;
 }
 
 export default App;
