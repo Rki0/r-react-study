@@ -1,41 +1,44 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, test, expect } from "vitest";
 import App from "../src/App";
 
-interface People {
-  id: number;
-  family_name: string;
-  given_name: string;
-  occupation: string;
-}
+const shortText = "This is short text.";
+const longText = "This is long text. lorem ipsum";
 
-const mockPeople: People[] = [
-  {
-    id: 1,
-    family_name: "Pak",
-    given_name: "Kiyoung",
-    occupation: "Software Engineer",
-  },
-  {
-    id: 2,
-    family_name: "Horibe",
-    given_name: "Sakiho",
-    occupation: "Software Engineer",
-  },
-  {
-    id: 3,
-    family_name: "Toki",
-    given_name: "Marina",
-    occupation: "Software Engineer",
-  },
-];
+const showBtn = "Show";
+const hideBtn = "Hide";
 
 describe("Rendering Test", () => {
-  test("should use li tag", () => {
+  test("shortText and Show button should be displayed at initial rendering phase", () => {
     render(<App />);
 
-    const listItems = screen.getAllByRole("listitem");
+    expect(screen.getByText(shortText)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: showBtn })).toBeInTheDocument();
+    expect(screen.queryByText(longText)).toBeNull();
+  });
 
-    expect(listItems.length).toBe(mockPeople.length);
+  test("When the user click the show button, the longText will be rendered and the button text will be Hide.", async () => {
+    render(<App />);
+
+    const button = screen.getByRole("button", { name: showBtn });
+    fireEvent.click(button);
+
+    expect(await screen.findByText(longText)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: hideBtn })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: showBtn })).toBeNull();
+  });
+
+  test("When the user click the hide button, the shortText will be rendered and the button text will be Show.", async () => {
+    render(<App />);
+
+    const showButton = screen.getByRole("button", { name: showBtn });
+    fireEvent.click(showButton);
+
+    const hideButton = await screen.findByRole("button", { name: hideBtn });
+    fireEvent.click(hideButton);
+
+    expect(screen.getByRole("button", { name: showBtn })).toBeInTheDocument();
+    expect(screen.queryByText(longText)).toBeNull();
+    expect(screen.queryByRole("button", { name: hideBtn })).toBeNull();
   });
 });

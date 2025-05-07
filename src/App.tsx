@@ -1,36 +1,20 @@
-interface People {
-  id: number;
-  family_name: string;
-  given_name: string;
-  occupation: string;
-}
-
-const people: People[] = [
-  {
-    id: 1,
-    family_name: "Pak",
-    given_name: "Kiyoung",
-    occupation: "Software Engineer",
-  },
-  {
-    id: 2,
-    family_name: "Horibe",
-    given_name: "Sakiho",
-    occupation: "Software Engineer",
-  },
-  {
-    id: 3,
-    family_name: "Toki",
-    given_name: "Marina",
-    occupation: "Software Engineer",
-  },
-];
+import { useState } from "react";
 
 function App() {
-  // TODO: Create an array to render li tag using people array.
-  const listItems = 
+  // TODO: Implement click event handler to show longText.
 
-  return <ul>{listItems}</ul>;
+  const shortText = "This is short text.";
+  const longText = "This is long text. lorem ipsum";
+
+  return (
+    <div>
+      <p>{shortText}</p>
+
+      {/* TODO: If the longText is displayed, the button text should be "Hide". */}
+      {/* NOTE: Toggle Button */}
+      <button>Show</button>
+    </div>
+  );
 }
 
 export default App;
