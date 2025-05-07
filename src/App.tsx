@@ -1,19 +1,24 @@
 import { useState } from "react";
 
 function App() {
-  // TODO: Implement click event handler to show longText.
+  const [score, setScore] = useState(0);
 
-  const shortText = "This is short text.";
-  const longText = "This is long text. lorem ipsum";
+  function handlePlusOneClick() {
+    setScore(score + 1);
+  }
+
+  function handlePlusThreeClick() {
+    setScore(score + 1);
+    setScore(score + 1);
+    setScore(score + 1);
+  }
 
   return (
-    <div>
-      <p>{shortText}</p>
-
-      {/* TODO: If the longText is displayed, the button text should be "Hide". */}
-      {/* NOTE: Toggle Button */}
-      <button>Show</button>
-    </div>
+    <>
+      <h1>Score: {score}</h1>
+      <button onClick={handlePlusOneClick}>+1</button>
+      <button onClick={handlePlusThreeClick}>+3</button>
+    </>
   );
 }
 

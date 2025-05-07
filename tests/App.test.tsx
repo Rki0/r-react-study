@@ -2,43 +2,45 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import App from "../src/App";
 
-const shortText = "This is short text.";
-const longText = "This is long text. lorem ipsum";
-
-const showBtn = "Show";
-const hideBtn = "Hide";
-
 describe("Rendering Test", () => {
-  test("shortText and Show button should be displayed at initial rendering phase", () => {
+  test("Should display 0 at the initial rendering.", () => {
     render(<App />);
-
-    expect(screen.getByText(shortText)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: showBtn })).toBeInTheDocument();
-    expect(screen.queryByText(longText)).toBeNull();
+    expect(screen.getByText("Score: 0")).toBeInTheDocument();
   });
 
-  test("When the user click the show button, the longText will be rendered and the button text will be Hide.", async () => {
+  test('If the user clicks the "+1" button, the score should increase by 1.', () => {
     render(<App />);
 
-    const button = screen.getByRole("button", { name: showBtn });
-    fireEvent.click(button);
+    const plusOneButton = screen.getByRole("button", { name: "+1" });
+    const scoreHeading = screen.getByText("Score: 0");
 
-    expect(await screen.findByText(longText)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: hideBtn })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: showBtn })).toBeNull();
+    fireEvent.click(plusOneButton);
+
+    expect(scoreHeading).toHaveTextContent("Score: 1");
   });
 
-  test("When the user click the hide button, the shortText will be rendered and the button text will be Show.", async () => {
+  test('If the user clicks the "+3" button, the score should increase by 3.', () => {
+    render(<App />);
+    const plusThreeButton = screen.getByRole("button", { name: "+3" });
+    const scoreHeading = screen.getByText("Score: 0");
+
+    fireEvent.click(plusThreeButton);
+
+    expect(scoreHeading).toHaveTextContent("Score: 3");
+  });
+
+  test("When the '+1' and '+3' buttons are clicked multiple times, the score accumulates correctly.", () => {
     render(<App />);
 
-    const showButton = screen.getByRole("button", { name: showBtn });
-    fireEvent.click(showButton);
+    const plusOneButton = screen.getByRole("button", { name: "+1" });
+    const plusThreeButton = screen.getByRole("button", { name: "+3" });
+    const scoreHeading = screen.getByText("Score: 0");
 
-    const hideButton = await screen.findByRole("button", { name: hideBtn });
-    fireEvent.click(hideButton);
+    fireEvent.click(plusOneButton);
+    fireEvent.click(plusThreeButton);
+    fireEvent.click(plusOneButton);
+    fireEvent.click(plusThreeButton);
 
-    expect(screen.getByRole("button", { name: showBtn })).toBeInTheDocument();
-    expect(screen.queryByText(longText)).toBeNull();
-    expect(screen.queryByRole("button", { name: hideBtn })).toBeNull();
+    expect(scoreHeading).toHaveTextContent("Score: 8");
   });
 });
