@@ -2,45 +2,69 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import App from "../src/App";
 
+const name = "Kiyoung Park";
+const email = "kiyoung.park@email.com";
+
+const newName = "Hello";
+const newEmail = "kiyoung.park@test.com";
+
 describe("Rendering Test", () => {
-  test("Should display 0 at the initial rendering.", () => {
+  test("Should display default user info at initial rendering.", () => {
     render(<App />);
-    expect(screen.getByText("Score: 0")).toBeInTheDocument();
+
+    expect(screen.getByDisplayValue(name)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(email)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Inputted Info: ${name} (${email})`)
+    ).toBeInTheDocument();
   });
 
-  test('If the user clicks the "+1" button, the score should increase by 1.', () => {
+  test("When the user update the name field, UI also will be updated.", () => {
     render(<App />);
 
-    const plusOneButton = screen.getByRole("button", { name: "+1" });
-    const scoreHeading = screen.getByText("Score: 0");
+    const nameInput = screen.getByLabelText("Name:");
+    const infoParagraph = screen.getByText(`Inputted Info: ${name} (${email})`);
 
-    fireEvent.click(plusOneButton);
+    fireEvent.change(nameInput, { target: { value: newName } });
 
-    expect(scoreHeading).toHaveTextContent("Score: 1");
+    expect(nameInput).toHaveValue(newName);
+    expect(infoParagraph).toHaveTextContent(
+      `Inputted Info: ${newName} (${email})`
+    );
   });
 
-  test('If the user clicks the "+3" button, the score should increase by 3.', () => {
+  test("When the user update the email field, UI also will be updated.", () => {
     render(<App />);
-    const plusThreeButton = screen.getByRole("button", { name: "+3" });
-    const scoreHeading = screen.getByText("Score: 0");
 
-    fireEvent.click(plusThreeButton);
+    const emailInput = screen.getByLabelText("E-mail:");
+    const infoParagraph = screen.getByText(`Inputted Info: ${name} (${email})`);
 
-    expect(scoreHeading).toHaveTextContent("Score: 3");
+    fireEvent.change(emailInput, {
+      target: { value: newEmail },
+    });
+
+    expect(emailInput).toHaveValue(newEmail);
+    expect(infoParagraph).toHaveTextContent(
+      `Inputted Info: ${name} (${newEmail})`
+    );
   });
 
-  test("When the '+1' and '+3' buttons are clicked multiple times, the score accumulates correctly.", () => {
+  test("When the user update both name field and email field, UI also will be updated.", () => {
     render(<App />);
 
-    const plusOneButton = screen.getByRole("button", { name: "+1" });
-    const plusThreeButton = screen.getByRole("button", { name: "+3" });
-    const scoreHeading = screen.getByText("Score: 0");
+    const nameInput = screen.getByLabelText("Name:");
+    const emailInput = screen.getByLabelText("E-mail:");
+    const infoParagraph = screen.getByText(`Inputted Info: ${name} (${email})`);
 
-    fireEvent.click(plusOneButton);
-    fireEvent.click(plusThreeButton);
-    fireEvent.click(plusOneButton);
-    fireEvent.click(plusThreeButton);
+    fireEvent.change(nameInput, { target: { value: newName } });
+    fireEvent.change(emailInput, {
+      target: { value: newEmail },
+    });
 
-    expect(scoreHeading).toHaveTextContent("Score: 8");
+    expect(nameInput).toHaveValue(newName);
+    expect(emailInput).toHaveValue(newEmail);
+    expect(infoParagraph).toHaveTextContent(
+      `Inputted Info: ${newName} (${newEmail})`
+    );
   });
 });

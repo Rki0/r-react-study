@@ -1,23 +1,34 @@
 import { useState } from "react";
 
 function App() {
-  const [score, setScore] = useState(0);
+  const [user, setUser] = useState({
+    name: "Kiyoung Park",
+    email: "kiyoung.park@email.com",
+  });
 
-  function handlePlusOneClick() {
-    setScore(score + 1);
+  function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    user.name = e.target.value;
   }
 
-  function handlePlusThreeClick() {
-    setScore(score + 1);
-    setScore(score + 1);
-    setScore(score + 1);
+  function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+    user.email = e.target.value;
   }
 
   return (
     <>
-      <h1>Score: {score}</h1>
-      <button onClick={handlePlusOneClick}>+1</button>
-      <button onClick={handlePlusThreeClick}>+3</button>
+      <label>
+        Name:
+        <input value={user.name} onChange={handleNameChange} />
+      </label>
+      <br />
+      <label>
+        E-mail:
+        <input value={user.email} onChange={handleEmailChange} />
+      </label>
+
+      <p>
+        Inputted Info: {user.name} ({user.email})
+      </p>
     </>
   );
 }
