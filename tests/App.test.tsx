@@ -2,69 +2,49 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import App from "../src/App";
 
-const name = "Kiyoung Park";
-const email = "kiyoung.park@email.com";
-
-const newName = "Hello";
-const newEmail = "kiyoung.park@test.com";
-
 describe("Rendering Test", () => {
-  test("Should display default user info at initial rendering.", () => {
+  test("Initial Rendering", () => {
     render(<App />);
 
-    expect(screen.getByDisplayValue(name)).toBeInTheDocument();
-    expect(screen.getByDisplayValue(email)).toBeInTheDocument();
-    expect(
-      screen.getByText(`Inputted Info: ${name} (${email})`)
-    ).toBeInTheDocument();
+    expect(screen.getByText("Apple (1)")).toBeInTheDocument();
+    expect(screen.getByText("Banana (3)")).toBeInTheDocument();
+    expect(screen.getByText("Orange (2)")).toBeInTheDocument();
   });
 
-  test("When the user update the name field, UI also will be updated.", () => {
+  test('When the user clicks the "+" button of specific merchandise, the number of it will increase by 1', () => {
     render(<App />);
 
-    const nameInput = screen.getByLabelText("Name:");
-    const infoParagraph = screen.getByText(`Inputted Info: ${name} (${email})`);
+    const appleItem = screen.getByText("Apple (1)");
+    const appleButton = appleItem.querySelector("button") as HTMLElement;
+    fireEvent.click(appleButton);
 
-    fireEvent.change(nameInput, { target: { value: newName } });
-
-    expect(nameInput).toHaveValue(newName);
-    expect(infoParagraph).toHaveTextContent(
-      `Inputted Info: ${newName} (${email})`
-    );
+    expect(screen.getByText("Apple (2)")).toBeInTheDocument();
+    expect(screen.getByText("Banana (3)")).toBeInTheDocument();
+    expect(screen.getByText("Orange (2)")).toBeInTheDocument();
   });
 
-  test("When the user update the email field, UI also will be updated.", () => {
-    render(<App />);
+  test(
+    "If the user clicks the " +
+      " buttons on multiple merchandise items, the number of selected items will increase correctly.",
+    () => {
+      render(<App />);
 
-    const emailInput = screen.getByLabelText("E-mail:");
-    const infoParagraph = screen.getByText(`Inputted Info: ${name} (${email})`);
+      const appleItem = screen.getByText("Apple (1)");
+      const bananaItem = screen.getByText("Banana (3)");
+      const orangeItem = screen.getByText("Orange (2)");
 
-    fireEvent.change(emailInput, {
-      target: { value: newEmail },
-    });
+      const appleButton = appleItem.querySelector("button") as HTMLElement;
+      const bananaButton = bananaItem.querySelector("button") as HTMLElement;
+      const orangeButton = orangeItem.querySelector("button") as HTMLElement;
 
-    expect(emailInput).toHaveValue(newEmail);
-    expect(infoParagraph).toHaveTextContent(
-      `Inputted Info: ${name} (${newEmail})`
-    );
-  });
+      fireEvent.click(appleButton);
+      fireEvent.click(bananaButton);
+      fireEvent.click(bananaButton);
+      fireEvent.click(orangeButton);
 
-  test("When the user update both name field and email field, UI also will be updated.", () => {
-    render(<App />);
-
-    const nameInput = screen.getByLabelText("Name:");
-    const emailInput = screen.getByLabelText("E-mail:");
-    const infoParagraph = screen.getByText(`Inputted Info: ${name} (${email})`);
-
-    fireEvent.change(nameInput, { target: { value: newName } });
-    fireEvent.change(emailInput, {
-      target: { value: newEmail },
-    });
-
-    expect(nameInput).toHaveValue(newName);
-    expect(emailInput).toHaveValue(newEmail);
-    expect(infoParagraph).toHaveTextContent(
-      `Inputted Info: ${newName} (${newEmail})`
-    );
-  });
+      expect(screen.getByText("Apple (2)")).toBeInTheDocument();
+      expect(screen.getByText("Banana (5)")).toBeInTheDocument();
+      expect(screen.getByText("Orange (3)")).toBeInTheDocument();
+    }
+  );
 });
