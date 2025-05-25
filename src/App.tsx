@@ -1,34 +1,29 @@
 import { useState } from "react";
-
-const initialProducts = [
-  { id: 0, name: "Apple", count: 1 },
-  { id: 1, name: "Banana", count: 3 },
-  { id: 2, name: "Orange", count: 2 },
-];
+import FormWithReducer from "./FormWithReducer";
+import FormWithState from "./FormWithState";
+import FormWithHook from "./FormWithHook";
 
 function App() {
-  const [products, setProducts] = useState(initialProducts);
+  const [version, setVersion] = useState("state");
 
-  function handleIncreaseClick(productId: number) {
-    products.find((p) => p.id === productId)!.count++;
-    setProducts(products);
-  }
+  const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setVersion(e.target.value);
+  };
 
   return (
-    <ul>
-      {products.map((product) => (
-        <li key={product.id}>
-          {product.name} ({product.count})
-          <button
-            onClick={() => {
-              handleIncreaseClick(product.id);
-            }}
-          >
-            +
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <select name="version" id="version" onChange={onChangeHandler}>
+        <option value="state">useState</option>
+        <option value="reducer">useReducer</option>
+        <option value="hook">React-Hook-Form</option>
+      </select>
+
+      <h1>Sign Up</h1>
+
+      {version === "state" && <FormWithState />}
+      {version === "reducer" && <FormWithReducer />}
+      {version === "hook" && <FormWithHook />}
+    </>
   );
 }
 
