@@ -1,13 +1,15 @@
-import ContextComponent from "./ContextComponent";
-import StateComponent from "./StateComponent";
-import ZustandComponent from "./ZustandComponent";
+import Footer from "./components/Footer";
+import LeftNavi from "./components/LeftNavi";
+import Main from "./components/Main";
 
 function App() {
   return (
     <>
-      <StateComponent />
-      <ContextComponent />
-      <ZustandComponent />
+      <LeftNavi />
+
+      <Main />
+
+      <Footer />
     </>
   );
 }

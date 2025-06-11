@@ -1,14 +1,29 @@
-interface LeftNavi {
-  isDarkMode: boolean;
-  onDarkModeChangeHandler: () => void;
-}
+import { Modal } from "./Modal";
+import useModal from "../hooks/useModal";
+import useFetch from "../hooks/useFetch";
 
-function LeftNavi({ isDarkMode, onDarkModeChangeHandler }: LeftNavi) {
+function LeftNavi() {
+  const { isSuccess, isPending, isError } = useFetch({
+    url: "http://localhost:3000/api/leftnavi",
+    method: "GET",
+    keepalive: false,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const { isOpen, openModal, closeModal } = useModal();
+
   return (
     <nav>
-      {isDarkMode ? <i id="dark_mode_icon" /> : <i id="light_mode_icon" />}
+      <header>I am Left Navigation Bar</header>
 
-      <button onClick={onDarkModeChangeHandler}>Convert mode</button>
+      <button onClick={openModal}>Open Modal in LeftNavi</button>
+
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        <h1>Hmm...Left Navi?</h1>
+
+        <button onClick={closeModal}>Cancel</button>
+      </Modal>
     </nav>
   );
 }
